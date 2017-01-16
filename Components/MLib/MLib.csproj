@@ -61,7 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppearanceManager.cs" />
+    <Compile Include="Behaviors\MergeStyleBehaviour.cs" />
     <Compile Include="Controls\RelativeAnimatingContentControl.cs" />
+    <Compile Include="Converters\ThicknessBindingConverter.cs" />
     <Compile Include="Events\ColorChangedEventArgs.cs" />
     <Compile Include="Util\InvokeExtensions.cs" />
     <Compile Include="Internal\AppearanceManagerImp.cs" />
@@ -81,6 +83,14 @@
     <Page Include="Controls\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ContentControlEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Menu\ContextMenu.xaml">
       <SubType>Designer</SubType>
@@ -137,6 +147,10 @@
     <Page Include="Controls\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\FocusVisualStyleKey.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>

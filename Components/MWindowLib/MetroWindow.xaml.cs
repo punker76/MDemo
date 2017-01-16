@@ -86,20 +86,28 @@
             get { return _MetroInactiveDialogContainer; }
         }
 
+        #region MetroDialogOptionsMyRegion
         public static readonly DependencyProperty MetroDialogOptionsProperty =
             DependencyProperty.Register("MetroDialogOptions"
                   , typeof(MWindowInterfacesLib.Interfaces.IMetroDialogSettings)
                   , typeof(MetroWindow)
                 , new PropertyMetadata(new MWindowInterfacesLib.MetroDialogSettings()));
 
+        /// <summary>
+        /// Gets/sets the standard <seealso cref="IMetroDialogSettings"/> that are used for any
+        /// dialog that opens below this windows without specifying the ContentDialog settings.
+        /// 
+        /// This property contains the default ContentDialog settings that can be set at run-time.
+        /// /// </summary>
         public IMetroDialogSettings MetroDialogOptions
         {
             get { return (IMetroDialogSettings)GetValue(MetroDialogOptionsProperty); }
             set { SetValue(MetroDialogOptionsProperty, value); }
         }
+        #endregion MetroDialogOptions
 
         #region Window Icon
-        public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register("ShowIcon", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        private static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register("ShowIcon", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the close button is visible.
@@ -112,7 +120,7 @@
         #endregion Window Icon
 
         #region Window Title
-        public static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register("ShowTitle", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        private static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register("ShowTitle", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the close button is visible.
@@ -125,7 +133,7 @@
         #endregion Window Title
 
         #region Window Min Button
-        public static readonly DependencyProperty ShowMinButtonProperty = DependencyProperty.Register("ShowMinButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        private static readonly DependencyProperty ShowMinButtonProperty = DependencyProperty.Register("ShowMinButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the close button is visible.
@@ -138,7 +146,7 @@
         #endregion Window Min Button
 
         #region Window Max Button
-        public static readonly DependencyProperty ShowMaxButtonProperty = DependencyProperty.Register("ShowMaxButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        private static readonly DependencyProperty ShowMaxButtonProperty = DependencyProperty.Register("ShowMaxButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the close button is visible.
@@ -151,7 +159,7 @@
         #endregion Window Max Button
 
         #region Window Close Button
-        public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        private static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the close button is visible.
@@ -164,6 +172,8 @@
         #endregion Window Close Button
 
         #region Show TitleBar
+        private static readonly DependencyProperty ShowTitleBarProperty = DependencyProperty.Register("ShowTitleBar", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true, OnShowTitleBarPropertyChangedCallback, OnShowTitleBarCoerceValueCallback));
+
         /// <summary>
         /// Gets/sets whether the TitleBar is visible or not.
         /// </summary>
@@ -193,10 +203,13 @@
         }
         #endregion Show TitleBar
 
-        public static readonly DependencyProperty UseNoneWindowStyleProperty = DependencyProperty.Register("UseNoneWindowStyle", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false, OnUseNoneWindowStylePropertyChangedCallback));
+        #region UseNoneWindowStyleMyRegion
+        private static readonly DependencyProperty UseNoneWindowStyleProperty = DependencyProperty.Register("UseNoneWindowStyle", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false, OnUseNoneWindowStylePropertyChangedCallback));
 
         /// <summary>
         /// Gets/sets whether the WindowStyle is None or not.
+        /// Setting UseNoneWindowStyle="True" on a <seealso cref="MetroWindow"/>
+        /// is equivalent to not showing the titlebar of the window.
         /// </summary>
         public bool UseNoneWindowStyle
         {
@@ -223,19 +236,19 @@
                 ShowTitleBar = false;
             }
 
-////            if (LeftWindowCommandsPresenter != null)
-////            {
-////                LeftWindowCommandsPresenter.Visibility = useNoneWindowStyle ? Visibility.Collapsed : Visibility.Visible;
-////            }
-////            if (RightWindowCommandsPresenter != null)
-////            {
-////                RightWindowCommandsPresenter.Visibility = useNoneWindowStyle ? Visibility.Collapsed : Visibility.Visible;
-////            }
+            ////            if (LeftWindowCommandsPresenter != null)
+            ////            {
+            ////                LeftWindowCommandsPresenter.Visibility = useNoneWindowStyle ? Visibility.Collapsed : Visibility.Visible;
+            ////            }
+            ////            if (RightWindowCommandsPresenter != null)
+            ////            {
+            ////                RightWindowCommandsPresenter.Visibility = useNoneWindowStyle ? Visibility.Collapsed : Visibility.Visible;
+            ////            }
         }
+        #endregion UseNoneWindowStyle
 
-        public static readonly DependencyProperty ShowTitleBarProperty = DependencyProperty.Register("ShowTitleBar", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true, OnShowTitleBarPropertyChangedCallback, OnShowTitleBarCoerceValueCallback));
-
-        public static readonly DependencyProperty ShowDialogsOverTitleBarProperty = DependencyProperty.Register("ShowDialogsOverTitleBar", typeof(bool), typeof(MetroWindow), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+        #region ShowDialogsOverTitleBar
+        private static readonly DependencyProperty ShowDialogsOverTitleBarProperty = DependencyProperty.Register("ShowDialogsOverTitleBar", typeof(bool), typeof(MetroWindow), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
         /// <summary>
         /// Get/sets whether dialogs show over the title bar.
@@ -245,28 +258,20 @@
             get { return (bool)GetValue(ShowDialogsOverTitleBarProperty); }
             set { SetValue(ShowDialogsOverTitleBarProperty, value); }
         }
+        #endregion ShowDialogsOverTitleBar
 
-        public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register("GlowBrush", typeof(Brush), typeof(MetroWindow), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets/sets the brush used for the Window's glow.
-        /// </summary>
-        public Brush GlowBrush
-        {
-            get { return (Brush)GetValue(GlowBrushProperty); }
-            set { SetValue(GlowBrushProperty, value); }
-        }
-
-
-        public static readonly DependencyProperty IsWindowDraggableProperty = DependencyProperty.Register("IsWindowDraggable", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        #region IsWindowDraggable
+        private static readonly DependencyProperty IsWindowDraggableProperty = DependencyProperty.Register("IsWindowDraggable", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         public bool IsWindowDraggable
         {
             get { return (bool)GetValue(IsWindowDraggableProperty); }
             set { SetValue(IsWindowDraggableProperty, value); }
         }
+        #endregion IsWindowDraggable
 
-        public static readonly DependencyProperty ShowSystemMenuOnRightClickProperty = DependencyProperty.Register("ShowSystemMenuOnRightClick", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
+        #region ShowSystemMenuOnRightClick
+        private static readonly DependencyProperty ShowSystemMenuOnRightClickProperty = DependencyProperty.Register("ShowSystemMenuOnRightClick", typeof(bool), typeof(MetroWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets/sets if the the system menu should popup on right click.
@@ -276,6 +281,24 @@
             get { return (bool)GetValue(ShowSystemMenuOnRightClickProperty); }
             set { SetValue(ShowSystemMenuOnRightClickProperty, value); }
         }
+        #endregion ShowSystemMenuOnRightClick
+
+        #region IsContentDialogVisible
+        /// <summary>
+        /// Determine whether a ContentDialog is currenlty shown inside the <seealso cref="MetroWindow"/> or not.
+        /// </summary>
+        public bool IsContentDialogVisible
+        {
+            get { return (bool)GetValue(IsContentDialogVisibleProperty); }
+            set { SetValue(IsContentDialogVisibleProperty, value); }
+        }
+
+        /// <summary>
+        /// Determine whether a ContentDialog is currenlty shown inside the <seealso cref="MetroWindow"/> or not.
+        /// </summary>
+        private static readonly DependencyProperty IsContentDialogVisibleProperty =
+            DependencyProperty.Register("IsContentDialogVisible", typeof(bool), typeof(MetroWindow), new PropertyMetadata(false));
+        #endregion IsContentDialogVisible
         #endregion properties
 
         #region methodes
@@ -292,7 +315,6 @@
         }
 
         #region Overlay Methods
-
         /// <summary>
         /// Begins to show the MetroWindow's overlay effect.
         /// </summary>
@@ -326,6 +348,9 @@
                 if (_OverlayStoryboard == sb)
                 {
                     _OverlayStoryboard = null;
+
+                    if (IsContentDialogVisible == false)
+                        IsContentDialogVisible = true;
                 }
 
                 tcs.TrySetResult(null);
@@ -346,7 +371,8 @@
         /// <returns>A task representing the process.</returns>
         public System.Threading.Tasks.Task HideOverlayAsync()
         {
-            if (_OverlayBox == null) throw new InvalidOperationException("OverlayBox can not be founded in this MetroWindow's template. Are you calling this before the window has loaded?");
+            if (_OverlayBox == null)
+                throw new InvalidOperationException("OverlayBox can not be founded in this MetroWindow's template. Are you calling this before the window has loaded?");
 
             var tcs = new System.Threading.Tasks.TaskCompletionSource<object>();
 
@@ -372,6 +398,9 @@
                 {
                     _OverlayBox.Visibility = Visibility.Hidden;
                     _OverlayStoryboard = null;
+
+                    if (IsContentDialogVisible == true)
+                        IsContentDialogVisible = false;
                 }
 
                 tcs.TrySetResult(null);
@@ -388,7 +417,8 @@
 
         public bool IsOverlayVisible()
         {
-            if (_OverlayBox == null) throw new InvalidOperationException("OverlayBox can not be founded in this MetroWindow's template. Are you calling this before the window has loaded?");
+            if (_OverlayBox == null)
+                throw new InvalidOperationException("OverlayBox can not be founded in this MetroWindow's template. Are you calling this before the window has loaded?");
 
             return _OverlayBox.Visibility == Visibility.Visible && _OverlayBox.Opacity >= 0.7;
         }
@@ -397,13 +427,20 @@
         {
             _OverlayBox.Visibility = Visibility.Visible;
             //overlayBox.Opacity = 0.7;
-            _OverlayBox.SetCurrentValue(Grid.OpacityProperty, 0.7);
+            _OverlayBox.SetCurrentValue(Grid.OpacityProperty, 0.5);
+
+            if (IsContentDialogVisible == false)
+                IsContentDialogVisible = true;
         }
+
         public void HideOverlay()
         {
             //overlayBox.Opacity = 0.0;
             _OverlayBox.SetCurrentValue(Grid.OpacityProperty, 0.0);
             _OverlayBox.Visibility = System.Windows.Visibility.Hidden;
+
+            if (IsContentDialogVisible == true)
+                IsContentDialogVisible = false;
         }
 
         /// <summary>
@@ -641,158 +678,6 @@
             return t.Task;
         }
 
-/***
-        /// <summary>
-        /// Adds a Metro Dialog instance to the specified window and makes it visible asynchronously.
-        /// If you want to wait until the user has closed the dialog, use <see cref="ShowMetroDialogAsyncAwaitable"/>
-        /// <para>You have to close the resulting dialog yourself with <see cref="HideMetroDialogAsync"/>.</para>
-        /// </summary>
-        /// <param name="window">The owning window of the dialog.</param>
-        /// <param name="dialog">The dialog instance itself.</param>
-        /// <param name="settings">An optional pre-defined settings instance.</param>
-        /// <returns>A task representing the operation.</returns>
-        /// <exception cref="InvalidOperationException">The <paramref name="dialog"/> is already visible in the window.</exception>
-        public Task ShowMetroDialogAsync(IBaseMetroDialog dialog,
-            IMetroDialogSettings settings = null)
-        {
-            this.Dispatcher.VerifyAccess();
-            if (this._MetroActiveDialogContainer.Children.Contains(dialog as UIElement) || this._MetroInactiveDialogContainer.Children.Contains(dialog as UIElement))
-                throw new InvalidOperationException("The provided dialog is already visible in the specified window.");
-
-            return this.HandleOverlayOnShow(settings).ContinueWith(z =>
-            {
-                return (Task)this.Dispatcher.Invoke(new Func<Task>(() =>
-                {
-                    settings = settings ?? this.MetroDialogOptions;
-
-                    SetDialogFontSizes(settings, dialog);
-
-                    SizeChangedEventHandler sizeHandler = this.SetupAndOpenDialog(dialog);
-                    dialog.SizeChangedHandler = sizeHandler;
-
-                    return dialog.WaitForLoadAsync().ContinueWith(x =>
-                    {
-                        dialog.OnShown();
-
-                        if (DialogOpened != null)
-                        {
-                            this.Dispatcher.BeginInvoke(new Action(() => DialogOpened(this, new DialogStateChangedEventArgs())));
-                        }
-                    });
-                }));
-            }).Unwrap();
-        }
-
-        private void AddDialog(IBaseMetroDialog dialog)
-        {
-            this.StoreFocus();
-
-            // if there's already an active dialog, move to the background
-            var activeDialog = this._MetroActiveDialogContainer.Children.Cast<UIElement>().SingleOrDefault();
-            if (activeDialog != null)
-            {
-                this._MetroActiveDialogContainer.Children.Remove(activeDialog);
-                this._MetroInactiveDialogContainer.Children.Add(activeDialog);
-            }
-
-            // add the dialog to the container}
-            this._MetroActiveDialogContainer.Children.Add(dialog as UIElement);
-        }
-
-        private void RemoveDialog(IBaseMetroDialog dialog)
-        {
-            if (this._MetroActiveDialogContainer.Children.Contains(dialog as UIElement))
-            {
-                // remove the dialog from the container
-                this._MetroActiveDialogContainer.Children.Remove(dialog as UIElement);
-
-                // if there's an inactive dialog, bring it to the front
-                var dlg = this._MetroInactiveDialogContainer.Children.Cast<UIElement>().LastOrDefault();
-                if (dlg != null)
-                {
-                    this._MetroInactiveDialogContainer.Children.Remove(dlg);
-                    this._MetroActiveDialogContainer.Children.Add(dlg);
-                }
-            }
-            else
-            {
-                this._MetroInactiveDialogContainer.Children.Remove(dialog as UIElement);
-            }
-
-            if (this._MetroActiveDialogContainer.Children.Count == 0)
-            {
-                this.RestoreFocus();
-            }
-        }
-
-        private Task HandleOverlayOnHide(IMetroDialogSettings settings)
-        {
-            if (!this._MetroActiveDialogContainer.Children.OfType<IBaseMetroDialog>().Any())
-            {
-                return (settings == null || settings.AnimateHide ? this.HideOverlayAsync() : Task.Factory.StartNew(() => this.Dispatcher.Invoke(new Action(this.HideOverlay))));
-            }
-            else
-            {
-                var tcs = new System.Threading.Tasks.TaskCompletionSource<object>();
-                tcs.SetResult(null);
-                return tcs.Task;
-            }
-        }
-
-        private Task HandleOverlayOnShow(IMetroDialogSettings settings)
-        {
-            if (!this._MetroActiveDialogContainer.Children.OfType<IBaseMetroDialog>().Any())
-            {
-                return (settings == null || settings.AnimateShow ? this.ShowOverlayAsync() : Task.Factory.StartNew(() => this.Dispatcher.Invoke(new Action(this.ShowOverlay))));
-            }
-            else
-            {
-                var tcs = new System.Threading.Tasks.TaskCompletionSource<object>();
-                tcs.SetResult(null);
-                return tcs.Task;
-            }
-        }
-
-        private void SetDialogFontSizes(IMetroDialogSettings settings, IBaseMetroDialog dialog)
-        {
-            if (settings == null)
-            {
-                return;
-            }
-
-            if (!double.IsNaN(settings.DialogTitleFontSize))
-            {
-                dialog.DialogTitleFontSize = settings.DialogTitleFontSize;
-            }
-
-            if (!double.IsNaN(settings.DialogMessageFontSize))
-            {
-                dialog.DialogMessageFontSize = settings.DialogMessageFontSize;
-            }
-        }
-
-        private SizeChangedEventHandler SetupAndOpenDialog(IBaseMetroDialog dialog)
-        {
-            dialog.SetValue(Panel.ZIndexProperty, (int)this._OverlayBox.GetValue(Panel.ZIndexProperty) + 1);
-            dialog.MinHeight = this.ActualHeight / 4.0;
-            dialog.MaxHeight = this.ActualHeight;
-
-            SizeChangedEventHandler sizeHandler = (sender, args) =>
-            {
-                dialog.MinHeight = this.ActualHeight / 4.0;
-                dialog.MaxHeight = this.ActualHeight;
-            };
-
-            this.SizeChanged += sizeHandler;
-
-            this.AddDialog(dialog);
-
-            dialog.OnShown();
-
-            return sizeHandler;
-        }
-        #endregion DialogManager
-***/
         /// <summary>
         /// Gets the template child with the given name.
         /// </summary>
@@ -812,23 +697,12 @@
             return GetTemplateChild(name);
         }
 
-#if NET4_5
-        protected override async void OnClosing(CancelEventArgs e)
-        {
-            // #2409: don't close window if there is a dialog still open
-            var dialog = await this.GetCurrentDialogAsync<IBaseMetroDialog>();
-            e.Cancel = dialog != null;
-            base.OnClosing(e);
-        }
-#else
         protected override void OnClosing(CancelEventArgs e)
         {
             // #2409: don't close window if there is a dialog still open
-            var dialog = this.Invoke(() => this.metroActiveDialogContainer?.Children.OfType<BaseMetroDialog>().LastOrDefault());
-            e.Cancel = dialog != null;
+            e.Cancel = this.IsContentDialogVisible;
             base.OnClosing(e);
         }
-#endif
 
         protected IntPtr CriticalHandle
         {
@@ -1014,13 +888,6 @@
             DoWindowTitleThumbSystemMenuOnMouseRightButtonUp(this, e);
         }
         #endregion WindowTitleThumbEvents
-
-        private void UseDropShadow()
-        {
-            this.BorderThickness = new Thickness(0);
-            this.BorderBrush = null;
-            this.GlowBrush = Brushes.Black;
-        }
 
         private void Window1_SourceInitialized(object sender, EventArgs e)
         {

@@ -26,5 +26,12 @@
         public static readonly ComponentResourceKey ControlMouseOverBackgroundKey = new ComponentResourceKey(typeof(ResourceKeys), "ControlMouseOverBackgroundKey");
         public static readonly ComponentResourceKey ControlMouseOverBackgroundBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "ControlMouseOverBackgroundBrushKey");
         #endregion
+
+        // Black Color Definition
+        public static readonly ComponentResourceKey OverlayColorKey = new ComponentResourceKey(typeof(ResourceKeys), "OverlayColorKey");
+        public static readonly ComponentResourceKey OverlayBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "OverlayBrushKey");
+
+        // Non-Color Keys
+        public static readonly ComponentResourceKey WindowButtonStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "WindowButtonStyleKey");
     }
 }

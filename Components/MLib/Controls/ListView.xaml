@@ -135,7 +135,7 @@
     </Style>
 
     <Style x:Key="MetroListViewItem" TargetType="{x:Type ListViewItem}">
-        <Setter Property="Foreground" Value="{DynamicResource  {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
         <!-- Setter Property="Border.BorderBrush" Value="{DynamicResource GrayBrush1}" / -->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -157,7 +157,7 @@
                                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlItemTextSelectedKey}}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" Value="False">
-                                                <Setter Property="Foreground" Value="{DynamicResource GrayNormalBrush}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.GrayNormalBrushKey}}" />
                                             </DataTrigger>
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
@@ -202,7 +202,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource GrayBrush7}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.Gray7BrushKey}}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
@@ -213,8 +213,8 @@
 
     <!--  Gives the impression that items cannot be selected on the ListView  -->
     <Style x:Key="NonSelectableListViewContainerStyle" TargetType="{x:Type ListViewItem}">
-        <Setter Property="Foreground" Value="{DynamicResource  {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
-        <Setter Property="Border.BorderBrush" Value="{DynamicResource GrayBrush1}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
+        <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static reskeys:ResourceKeys.Gray1BrushKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="IsTabStop" Value="False" />
@@ -239,10 +239,10 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                <Setter Property="Background" Value="{DynamicResource AlternateRow1BackgroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.AlternateRow1BackgroundBrushKey}}" />
             </Trigger>
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                <Setter Property="Background" Value="{DynamicResource AlternateRow2BackgroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.AlternateRow2BackgroundBrushKey}}" />
                 <Setter Property="Border.BorderThickness" Value="0 1 0 1" />
             </Trigger>
         </Style.Triggers>
@@ -269,7 +269,7 @@
     <Style x:Key="MetroGridViewColumnHeader" TargetType="GridViewColumnHeader">
         <!-- Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Upper" / -->
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{DynamicResource  {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlItemTextKey}}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="4 2 4 2" />
@@ -301,7 +301,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource GrayBrush8}" />
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.Gray8BrushKey}}" />
                             <Setter TargetName="HeaderContent" Property="Margin" Value="1 1 0 0" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">

@@ -15,9 +15,50 @@
                                 ResourceId=ControlAccentBrushKey}"
                      Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlAccentColorKey}}"/>
 
+    <!-- Normal Control Foreground and Background Colors-->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+           ResourceId=ControlNormalForegroundKey}">#FF000000</Color>
+
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+           ResourceId=ControlNormalBackgroundKey}">#FFFFFFFF</Color>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=ControlNormalForegroundBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlNormalForegroundKey}}"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=ControlNormalBackgroundBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlNormalBackgroundKey}}"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                                ResourceId=DialogFrameBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlAccentColorKey}}"
+                     Opacity="0.5"
+                     />
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
                                 ResourceId=MsgBoxMessageColorBrushKey}"
                      Color="Black"/>
+
+    <!-- Black & While Color Definition -->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=BlackColorKey}">#FF000000</Color>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=BlackBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.BlackColorKey}}" options:Freeze="True" />
+
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=WhiteColorKey}">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=WhiteBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.WhiteColorKey}}" options:Freeze="True" />
+
+    <!-- MouseOver Keys -->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+           ResourceId=ControlMouseOverBackgroundKey}">#403F3F41</Color>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=ControlMouseOverBackgroundBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlMouseOverBackgroundKey}}"/>
 
 </ResourceDictionary>

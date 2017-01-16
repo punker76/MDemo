@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\PasswordBoxBindingBehavior.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Dialogs\BaseMetroDialog.xaml.cs">
       <DependentUpon>BaseMetroDialog.xaml</DependentUpon>
     </Compile>
@@ -236,6 +237,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MsgBox\Views\MsgBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\WindowButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

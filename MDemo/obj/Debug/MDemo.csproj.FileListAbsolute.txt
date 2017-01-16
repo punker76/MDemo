@@ -1,1 +1,0 @@
-G:\MyFiles\CSharp\05_GitHub\MDemo\MDemo\MDemo\bin\Debug\MDemo.exe.config

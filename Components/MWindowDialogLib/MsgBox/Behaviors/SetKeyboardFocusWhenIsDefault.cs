@@ -1,5 +1,6 @@
 ﻿namespace MWindowDialogLib.MsgBox.Behaviors
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
@@ -86,7 +87,11 @@
 
             if (button.IsDefault == true)
             {
-                Keyboard.Focus(button);
+                button.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    button.Focus();
+                    Keyboard.Focus(button);
+                }));
             }
         }
     }

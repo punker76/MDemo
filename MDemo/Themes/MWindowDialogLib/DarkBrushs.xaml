@@ -7,13 +7,17 @@
                     >
     <!-- Accent Color Brush Definition
              - Look for references on ControlAccentBrushKey to find where this is being set in code -->
-    <!-- Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
-           ResourceId=ControlAccentColorKey}">Blue</>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                                ResourceId=ControlAccentColorKey}">Blue</Color>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
                                 ResourceId=ControlAccentBrushKey}"
+                     Color="{DynamicResource {x:Static MLib_reskeys:ResourceKeys.ControlAccentColorKey}}" />
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                                ResourceId=DialogFrameBrushKey}"
                      Color="{DynamicResource {x:Static MLib_reskeys:ResourceKeys.ControlAccentColorKey}}"
-                     Opacity=".5"
-                     / -->
+                     Opacity="0.5"
+                     />
 
 </ResourceDictionary>

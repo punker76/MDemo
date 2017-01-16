@@ -1,20 +1,21 @@
 ﻿namespace MWindowDialogLib.MsgBox.Views
 {
-  using System.Windows.Controls;
+    using System;
+    using System.Windows.Controls;
 
-  /// <summary>
-  /// Interaction logic for MsgBoxView.xaml
-  /// </summary>
-  public partial class MsgBoxView : UserControl
-  {
-    #region constructor
     /// <summary>
-    /// Constructor
+    /// Interaction logic for MsgBoxView.xaml
     /// </summary>
-    public MsgBoxView()
+    public partial class MsgBoxView : UserControl
     {
-      this.InitializeComponent();
+        #region constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public MsgBoxView()
+        {
+            this.InitializeComponent();
+        }
+        #endregion constructor
     }
-    #endregion constructor
-  }
 }

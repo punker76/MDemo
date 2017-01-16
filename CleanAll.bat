@@ -6,7 +6,7 @@ ECHO.
 ECHO This script deletes all temporary build files in the .vs folder and the
 ECHO BIN and OBJ folders contained in the following projects
 ECHO.
-ECHO MDemo
+ECHO PDF Binder
 ECHO Components/MLib
 ECHO Components/MWindowLib
 ECHO Components/MWindowInterfacesLib

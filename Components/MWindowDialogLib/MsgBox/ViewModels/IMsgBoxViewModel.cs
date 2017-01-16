@@ -14,8 +14,19 @@
         bool CloseVisibility { get; set; }
         ImageSource CopyImageSource { get; set; }
         ICommand CopyText { get; }
+
+
         MsgBoxResult DefaultCloseResult { get; }
+
+        /// <summary>
+        /// Use this property to determine whether the dialog can be closed
+        /// without picking a choice (e.g. OK or Cancel) or not.
+        /// </summary>
         bool DialogCanCloseViaChrome { get; }
+
+        /// <summary>
+        /// Use this property to tell the view that the viewmodel would like to close now.
+        /// </summary>
         bool? DialogCloseResult { get; }
         bool DisplayHelpLink { get; }
         bool EnableCopyFunction { get; set; }

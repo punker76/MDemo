@@ -35,7 +35,7 @@
     /// - (Expander) section with more textual/technical details
     /// </summary>
     internal class MsgBoxViewModel : Base.BaseViewModel ////, INotifyableViewModel
-, IMsgBoxViewModel
+        , IMsgBoxViewModel
     {
         #region fields
         private string mTitle;
@@ -114,16 +114,16 @@
             this.EnableCopyFunction = enableCopyFunction;
             this.SetButtonVisibility(buttonOption);
 
-            this.mIsDefaultButton = this.SetupDefaultButton(buttonOption, defaultButton);
+            this.IsDefaultButton = this.SetupDefaultButton(buttonOption, defaultButton);
 
             this.TypeOfImage = image;
 
             this.mHelpLink = helpLink;
-            this.mHelpLinkTitle = helpLinkTitle;
+            this.HelpLinkTitle = helpLinkTitle;
 
-            this.mResult = MsgBoxResult.None;
-            this.mDefaultCloseResult = defaultCloseResult;
-            this.mDialogCanCloseViaChrome = dialogCanCloseViaChrome;
+            this.Result = MsgBoxResult.None;
+            this.DefaultCloseResult = defaultCloseResult;
+            this.DialogCanCloseViaChrome = dialogCanCloseViaChrome;
 
             this.mDialogCloseResult = null;
 
@@ -334,6 +334,15 @@
             get
             {
                 return this.mIsDefaultButton;
+            }
+
+            set
+            {
+                if (this.mIsDefaultButton != value)
+                {
+                    this.mIsDefaultButton = value;
+                    this.NotifyPropertyChanged(() => this.mIsDefaultButton);
+                }
             }
         }
 
@@ -641,8 +650,8 @@
                                 // Close via ESC key (or close via other than labeled buttons) is disabled
                                 if (this.DialogCanCloseViaChrome == false)
                                 {
-////                                    this.ShowLegalCloseOptionsNotification();
-////                                    return;
+                                    ////                                    this.ShowLegalCloseOptionsNotification();
+                                    ////                                    return;
                                 }
 
                                 ComParam = (MsgBoxResult)p;
@@ -662,6 +671,10 @@
                         }
 
                         this.DialogCloseResult = true;
+                    },
+                    (p) => 
+                    {
+                        return this.DialogCanCloseViaChrome;
                     });
                 }
 
@@ -782,15 +795,15 @@
         {
             if (this.DialogCanCloseViaChrome == false)
             {
-////                if (this.Result == MsgBoxResult.None)
-////                {
-////                    // Revoke close event since this is not allowed here
-////                    e.Cancel = true;
-////
-////                    this.ShowLegalCloseOptionsNotification();
-////
-////                    return;
-////                }
+                ////                if (this.Result == MsgBoxResult.None)
+                ////                {
+                ////                    // Revoke close event since this is not allowed here
+                ////                    e.Cancel = true;
+                ////
+                ////                    this.ShowLegalCloseOptionsNotification();
+                ////
+                ////                    return;
+                ////                }
             }
 
             // Just set default close result and continue closing the dialog
@@ -802,21 +815,21 @@
         /// Show a notification that users should use the labelled choice buttons to close a dialog
         /// instead of trying escape, ALT-F4, or Window Close (X) ... window chrome accessibilies...
         /// </summary>
-////        private void ShowLegalCloseOptionsNotification()
-////        {
-////            if (this.ShowNotificationMessage != null)
-////            {
-////                this.ShowNotificationMessage(this, new ShowNotificationEvent
-////                 (
-////                    Local.Strings.Notificaation_Usage_Title,
-////                    string.Format(Local.Strings.Notificaation_Usage_Description,
-////                                                this.GetVisibleButtonDescription(this.mButtonOption)),
-////
-////                    this.GetApplicationResource("MsgBox_Usage_Notification",
-////                                                                            "pack://application:,,,/MsgBox;component/Images/MsgBoxImages/48px-Dialog-error-round.svg.png")
-////                 ));
-////            }
-////        }
+        ////        private void ShowLegalCloseOptionsNotification()
+        ////        {
+        ////            if (this.ShowNotificationMessage != null)
+        ////            {
+        ////                this.ShowNotificationMessage(this, new ShowNotificationEvent
+        ////                 (
+        ////                    Local.Strings.Notificaation_Usage_Title,
+        ////                    string.Format(Local.Strings.Notificaation_Usage_Description,
+        ////                                                this.GetVisibleButtonDescription(this.mButtonOption)),
+        ////
+        ////                    this.GetApplicationResource("MsgBox_Usage_Notification",
+        ////                                                                            "pack://application:,,,/MsgBox;component/Images/MsgBoxImages/48px-Dialog-error-round.svg.png")
+        ////                 ));
+        ////            }
+        ////        }
 
         /// <summary>
         /// Attempt to locate a dynamic (<seealso cref="BitmapImage"/>) resource
@@ -1049,7 +1062,7 @@
         /// <param name="buttonOption"></param>
         /// <param name="defaultButton"></param>
         private MsgBoxResult SetupDefaultButton(MsgBoxButtons buttonOption,
-                                                                                        MsgBoxResult defaultButton)
+                                                MsgBoxResult defaultButton)
         {
             MsgBoxResult ret = defaultButton;
 

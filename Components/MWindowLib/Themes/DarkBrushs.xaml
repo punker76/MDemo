@@ -36,4 +36,12 @@
                      ResourceId=ControlMouseOverBackgroundBrushKey}"
                      Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlMouseOverBackgroundKey}}"/>
 
+    <!-- Overlay Color Definition
+         The overlay is the element that blures the background when a dialog is visible -->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=OverlayColorKey}">#FF000000</Color>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=OverlayBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.OverlayColorKey}}" options:Freeze="True" />
+
 </ResourceDictionary>

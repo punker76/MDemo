@@ -8,44 +8,6 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-    <!-- CustomControl Window is based on this source:
-         http://stackoverflow.com/questions/13592326/making-wpf-applications-look-metro-styled-even-in-windows-7-window-chrome-t
-    
-         plus MahApps.Metro and MUI
-    -->
-    <Style x:Key="WindowButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlNormalForegroundBrushKey}}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="1" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <ContentPresenter x:Name="contentPresenter"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                        Margin="{TemplateBinding Padding}"
-                                        RecognizesAccessKey="True" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlMouseOverBackgroundBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static reskeys:ResourceKeys.ControlAccentBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value=".5" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="WindowTitleThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -77,7 +39,8 @@
                                               Grid.Row="1"
                                               Grid.RowSpan="2"
                                               Margin="9"
-                                              Panel.ZIndex="1" />
+                                              Panel.ZIndex="1"
+                                              />
                             
                             <Grid VerticalAlignment="Top"
                                   Grid.Row="0"
@@ -127,26 +90,27 @@
                                             Grid.Column="1"
                                             Panel.ZIndex="1"
                                             >
-                                    <Button Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
+                                    <Button x:Name="Minimize"
+                                            Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
                                             ToolTip="minimize"
-                                            Style="{StaticResource WindowButtonStyle}"
+                                            Style="{DynamicResource {x:Static reskeys:ResourceKeys.WindowButtonStyleKey}}"
                                             Visibility="{TemplateBinding ShowMinButton, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             >
                                         <Button.Content>
-                                            <Grid Width="30" Height="25">
+                                            <Grid>
                                                 <TextBlock Text="0" FontFamily="Marlett" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="3.5,0,0,3" />
                                             </Grid>
                                         </Button.Content>
                                     </Button>
-                                    <Grid Margin="1,0,1,0">
+                                    <Grid>
                                         <Button x:Name="Restore"
                                                 Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
                                                 ToolTip="restore"
                                                 Visibility="Collapsed"
-                                                Style="{StaticResource WindowButtonStyle}"
+                                                Style="{DynamicResource {x:Static reskeys:ResourceKeys.WindowButtonStyleKey}}"
                                                 >
                                             <Button.Content>
-                                                <Grid Width="30" Height="25" UseLayoutRounding="True">
+                                                <Grid>
                                                     <TextBlock Text="2" FontFamily="Marlett" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,1" />
                                                 </Grid>
                                             </Button.Content>
@@ -154,23 +118,24 @@
                                         <Button x:Name="Maximize"
                                                 Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
                                                 ToolTip="maximize"
-                                                Style="{StaticResource WindowButtonStyle}"
+                                                Style="{DynamicResource {x:Static reskeys:ResourceKeys.WindowButtonStyleKey}}"
                                                 Visibility="{TemplateBinding ShowMaxButton, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 >
                                             <Button.Content>
-                                                <Grid Width="31" Height="25">
+                                                <Grid>
                                                     <TextBlock Text="1" FontFamily="Marlett" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,1" />
                                                 </Grid>
                                             </Button.Content>
                                         </Button>
                                     </Grid>
-                                    <Button Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
+                                    <Button x:Name="Close"
+                                            Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
                                             ToolTip="close"
-                                            Style="{StaticResource WindowButtonStyle}"
+                                                Style="{DynamicResource {x:Static reskeys:ResourceKeys.WindowButtonStyleKey}}"
                                             Visibility="{TemplateBinding ShowCloseButton, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             >
                                         <Button.Content>
-                                            <Grid Width="30" Height="25">
+                                            <Grid>
                                                 <TextBlock Text="r" FontFamily="Marlett" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0,0,0,1" />
                                             </Grid>
                                         </Button.Content>
@@ -219,7 +184,7 @@
                                   Grid.Column="0"
                                   Grid.ColumnSpan="1"
                                   Panel.ZIndex="4"
-                                  Background="{DynamicResource BlackColorBrush}"
+                                  Background="{DynamicResource {x:Static reskeys:ResourceKeys.OverlayBrushKey}}"
                                   Opacity="0"
                                   FocusVisualStyle="{x:Null}"
                                   Focusable="False"
@@ -237,11 +202,11 @@
                     </AdornerDecorator>
                 </Border>
 
+                <!-- BorderBrush="{TemplateBinding GlowBrush}" -->
                 <Border x:Name="PART_Border"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{x:Null}"
-                        BorderBrush="{TemplateBinding GlowBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         UseLayoutRounding="True" />
 
@@ -272,6 +237,15 @@
         </ControlTemplate.Resources>
 
         <ControlTemplate.Triggers>
+            <!-- Lets make user cannot Tab into a Window Button -->
+            <Trigger Property="IsContentDialogVisible" Value="true">
+                <Setter TargetName="Restore" Property="Focusable" Value="false" />
+                <Setter TargetName="Maximize" Property="Focusable" Value="false" />
+                <Setter TargetName="Minimize" Property="Focusable" Value="false" />
+                <Setter TargetName="Close" Property="Focusable" Value="false" />
+            </Trigger>
+            
+
             <Trigger Property="ShowDialogsOverTitleBar" Value="False">
                 <Setter TargetName="PART_MetroInactiveDialogsContainer" Property="Grid.Row" Value="1" />
                 <Setter TargetName="PART_OverlayBox" Property="Grid.Row" Value="1" />

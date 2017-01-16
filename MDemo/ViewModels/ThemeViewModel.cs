@@ -14,9 +14,9 @@
     public class ThemeViewModel : Base.ViewModelBase
     {
         #region private fields
-        private readonly ThemeDefinition  _DefaultTheme = null;
-        private Dictionary<string, ThemeDefinition> _ListOfThemes = null;
-        private ThemeDefinition _SelectedTheme = null;
+        private readonly ThemeDefinitionViewModel _DefaultTheme = null;
+        private Dictionary<string, ThemeDefinitionViewModel> _ListOfThemes = null;
+        private ThemeDefinitionViewModel _SelectedTheme = null;
         private bool _IsEnabled = true;
         #endregion private fields
 
@@ -28,7 +28,7 @@
         {
             var settings = GetService<ISettingsManager>(); // add the default themes
 
-            _ListOfThemes = new Dictionary<string, ThemeDefinition>();
+            _ListOfThemes = new Dictionary<string, ThemeDefinitionViewModel>();
 
             foreach (var item in settings.Themes.GetThemeInfos())
             {
@@ -36,7 +36,7 @@
                 foreach (var subitem in item.ThemeSources)
                     list.Add(subitem.ToString());
 
-                _ListOfThemes.Add(item.DisplayName, new ThemeDefinition(item.DisplayName, list));
+                _ListOfThemes.Add(item.DisplayName, new ThemeDefinitionViewModel(new ThemeDefinition(item.DisplayName, list)));
             }
 
             // Lets make sure there is a default
@@ -44,6 +44,7 @@
 
             // and something sensible is selected
             _SelectedTheme = _DefaultTheme;
+            _SelectedTheme.IsSelected = true;
         }
         #endregion constructors
 
@@ -51,7 +52,7 @@
         /// <summary>
         /// Returns a default theme that should be applied when nothing else is available.
         /// </summary>
-        public ThemeDefinition DefaultTheme
+        public ThemeDefinitionViewModel DefaultTheme
         {
             get
             {
@@ -62,7 +63,7 @@
         /// <summary>
         /// Returns a list of theme definitons.
         /// </summary>
-        public List<ThemeDefinition> ListOfThemes
+        public List<ThemeDefinitionViewModel> ListOfThemes
         {
             get
             {
@@ -73,7 +74,7 @@
         /// <summary>
         /// Gets the currently selected theme (or desfault on applaiction start-up)
         /// </summary>
-        public ThemeDefinition SelectedTheme
+        public ThemeDefinitionViewModel SelectedTheme
         {
             get
             {
@@ -84,7 +85,14 @@
             {
                 if (_SelectedTheme != value)
                 {
+                    if (_SelectedTheme != null)
+                        _SelectedTheme.IsSelected = false;
+
                     _SelectedTheme = value;
+
+                    if (_SelectedTheme != null)
+                        _SelectedTheme.IsSelected = true;
+
                     this.RaisePropertyChanged(() => this.SelectedTheme);
                 }
             }
@@ -129,7 +137,7 @@
                     Color AccentColor = ThemeViewModel.GetCurrentAccentColor(settings);
                     GetService<IAppearanceManager>().SetTheme(settings.Themes, themeName, AccentColor);
 
-                    ThemeDefinition o;
+                    ThemeDefinitionViewModel o;
                     _ListOfThemes.TryGetValue(themeName, out o);
                     SelectedTheme = o;
                 }

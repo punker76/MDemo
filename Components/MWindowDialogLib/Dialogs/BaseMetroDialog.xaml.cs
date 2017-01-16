@@ -126,13 +126,32 @@
         public SizeChangedEventHandler SizeChangedHandler { get; set; }
 
         #region DialogCloseResult
+        /// <summary>
+        /// Bind this property between view and viemodel to have the viewmodel tell
+        /// the view whether it OK to close without picking a choice (eg. yes) or not.
+        /// </summary>
+        public bool DialogCanCloseViaChrome
+        {
+            get { return (bool)GetValue(DialogCanCloseViaChromeProperty); }
+            set { SetValue(DialogCanCloseViaChromeProperty, value); }
+        }
+
+        public static readonly DependencyProperty DialogCanCloseViaChromeProperty =
+            DependencyProperty.Register("DialogCanCloseViaChrome"
+                , typeof(bool)
+                , typeof(BaseMetroDialog)
+                , new PropertyMetadata(true));
+
+        /// <summary>
+        /// Bind this property between view and viemodel to have the viewmodel tell
+        /// the view that it is time to disappear (eg. user has clicked a choice button).
+        /// </summary>
         public bool? DialogCloseResult
         {
             get { return (bool?)GetValue(DialogCloseResultProperty); }
             set { SetValue(DialogCloseResultProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for DialogCloseResult.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DialogCloseResultProperty =
             DependencyProperty.Register("DialogCloseResult"
                 , typeof(bool?)

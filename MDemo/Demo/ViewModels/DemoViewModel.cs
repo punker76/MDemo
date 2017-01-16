@@ -1,10 +1,10 @@
 ﻿namespace MDemo.Demo.ViewModels
 {
+    using MDemo.ViewModels.Base;
     using Models;
     using MWindowDialogLib;
     using MWindowDialogLib.Dialogs;
     using MWindowInterfacesLib.MsgBox.Enums;
-    using MDemo.ViewModels.Base;
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -98,7 +98,7 @@
         private ICommand _ShowCustomDialogCommand;
         private ICommand _ShowInputDialogCommand;
         private ICommand _ShowLoginDialogCommand;
-        private ICommand _ShowMsgBoxCommand;
+        private ICommand _ShowMsgBoxAsyncCommand;
         #endregion private fields
 
         #region test fields
@@ -113,11 +113,14 @@
         private MessageResultCollection mDefaultMessageButtonSelected;
         private ObservableCollection<MessageResultCollection> mDefaultMessageButtons = null;
 
-        private string mMessageText, mCaptionText;
-        private bool mShowCopyButton;
-        private string mResult;
-        private ICommand mTestSamplMsgBox;
-        private ICommand _ShowSynchronoudMsgBoxCommand;
+        private string _MessageText, _CaptionText;
+        private bool _ShowCopyButton;
+        private string _Result;
+        private string _TestMethod;
+
+        private ICommand _TestSamplMsgBoxAsync;
+        private ICommand _ShowMsgBoxCommand;
+        private ICommand _TestSampleMsgBoxCommand;
         #endregion test fields
 
         #region constructors
@@ -184,10 +187,10 @@
                 this.mDefaultMessageButtons.Add(new MessageResultCollection() { Name = item.ToString(), EnumKey = enumItem });
             }
 
-            this.mMessageText = "This is an important anouncement from your computer(!).";
-            this.mCaptionText = "An Important Anouncement";
-            this.mShowCopyButton = false;
-            this.mResult = string.Empty;
+            this._MessageText = "This is an important anouncement from your computer(!).";
+            this._CaptionText = "An Important Anouncement";
+            this._ShowCopyButton = false;
+            this._Result = string.Empty;
 
         }
         #endregion constructors
@@ -201,6 +204,7 @@
                 {
                     _ShowMessageDialogCommand = new RelayCommand<object>((p) =>
                     {
+                        this.TestMethod = "Async";
                         PerformDialogCoordinatorAction(this.ShowMessage((string)p), (string)p == "DISPATCHER_THREAD");
                     },
                     (p) => { return true; });
@@ -242,6 +246,7 @@
                 {
                     _ShowProgressDialogCommand = new RelayCommand(() =>
                     {
+                        this.TestMethod = "Async";
                         RunProgressFromVm();
                     },
                     () => { return true; });
@@ -271,6 +276,7 @@
                 {
                     _ShowCustomDialogCommand = new RelayCommand(() =>
                     {
+                        this.TestMethod = "Async";
                         RunCustomFromVm();
                     },
                     () => { return true; });
@@ -306,6 +312,7 @@
                 {
                     _ShowInputDialogCommand = new RelayCommand<object>(async (p) =>
                     {
+                        this.TestMethod = "Async";
                         var coord = GetService<IContentDialogService>().Coordinator;
                         await coord.ShowInputAsync(this
                                                  , "From a VM"
@@ -327,6 +334,7 @@
                 {
                     _ShowLoginDialogCommand = new RelayCommand<object>(async (p) =>
                     {
+                        this.TestMethod = "Async";
                         var coord = GetService<IContentDialogService>().Coordinator;
 
                         await coord.ShowLoginAsync(this
@@ -341,19 +349,47 @@
             }
         }
 
+        public ICommand ShowMsgBoxAsyncCommand
+        {
+            get
+            {
+                if (_ShowMsgBoxAsyncCommand == null)
+                {
+                    _ShowMsgBoxAsyncCommand = new RelayCommand<object>(async (p) =>
+                    {
+                        this.TestMethod = "Async";
+                        var msgbox = GetService<IContentDialogService>().MsgBox;
+
+                        var result = await msgbox.ShowAsync("This is a simple test message with a simple dialog.... also press Escape or Enter to verify the result...");
+                        this.Result = result.ToString();
+
+                        await msgbox.ShowAsync(string.Format("Result was: {0}", result));
+
+
+                    },
+                    (p) => { return true; });
+                }
+
+                return _ShowMsgBoxAsyncCommand;
+            }
+        }
+
         public ICommand ShowMsgBoxCommand
         {
             get
             {
                 if (_ShowMsgBoxCommand == null)
                 {
-                    _ShowMsgBoxCommand = new RelayCommand<object>(async (p) =>
+                    _ShowMsgBoxCommand = new RelayCommand<object>((p) =>
                     {
-                        var msgbox = GetService<IContentDialogService>().MsgBox;
+                        this.TestMethod = "Sync";
+                        var msg = GetService<IContentDialogService>().MsgBox;
 
-                        var result = await msgbox.Show("This is a simple test message with a simple dialog.... also press Escape or Enter to verify the result...");
+                        var result = msg.Show("This is a simple test message with a simple dialog.... also press Escape or Enter to verify the result...");
 
-                        await msgbox.Show(string.Format("Result was: {0}", result));
+                        result = msg.Show(string.Format("Result was: {0}", result));
+
+                        Result = result.ToString();
                     },
                     (p) => { return true; });
                 }
@@ -362,22 +398,24 @@
             }
         }
 
-        public ICommand ShowSynchronoudMsgBoxCommand
+        /// <summary>
+        /// Implements a test command to test the fixed 1-17... sample message box
+        /// displays with different pre-defined parameters.
+        /// </summary>
+        public ICommand TestSampleMsgBoxAsyncCommand
         {
             get
             {
-                if (_ShowSynchronoudMsgBoxCommand == null)
-                {
-                    _ShowSynchronoudMsgBoxCommand = new RelayCommand<object>((p) =>
-                    {
-                        var result = ShowMessageTest("This is a simple test message with a simple dialog.... also press Escape or Enter to verify the result...");
+                if (this._TestSamplMsgBoxAsync == null)
+                    this._TestSamplMsgBoxAsync =
+                        new RelayCommand<object>((p) =>
+                        {
+                            this.TestMethod = "Async";
 
-                        ShowMessageTest(string.Format("Result was: {0}", result));
-                    },
-                    (p) => { return true; });
-                }
+                            this.TestSamplMsgBox_ExecutedAsync(p);
+                        });
 
-                return _ShowSynchronoudMsgBoxCommand;
+                return this._TestSamplMsgBoxAsync;
             }
         }
 
@@ -385,14 +423,19 @@
         /// Implements a test command to test the fixed 1-17... sample message box
         /// displays with different pre-defined parameters.
         /// </summary>
-        public ICommand TestSamplMsgBox
+        public ICommand TestSampleMsgBoxCommand
         {
             get
             {
-                if (this.mTestSamplMsgBox == null)
-                    this.mTestSamplMsgBox = new RelayCommand<object>((p) => this.TestSamplMsgBox_Executed(p));
+                if (this._TestSampleMsgBoxCommand == null)
+                    this._TestSampleMsgBoxCommand =
+                        new RelayCommand<object>((p) =>
+                        {
+                            this.TestMethod = "Sync";
+                            this.TestSamplMsgBox_Executed(p);
+                        });
 
-                return this.mTestSamplMsgBox;
+                return this._TestSampleMsgBoxCommand;
             }
         }
         #endregion Commands
@@ -431,14 +474,14 @@
         {
             get
             {
-                return this.mMessageText;
+                return this._MessageText;
             }
 
             set
             {
-                if (this.mMessageText != value)
+                if (this._MessageText != value)
                 {
-                    this.mMessageText = value;
+                    this._MessageText = value;
                     this.RaisePropertyChanged(() => this.MessageText);
                 }
             }
@@ -451,14 +494,14 @@
         {
             get
             {
-                return this.mCaptionText;
+                return this._CaptionText;
             }
 
             set
             {
-                if (this.mCaptionText != value)
+                if (this._CaptionText != value)
                 {
-                    this.mCaptionText = value;
+                    this._CaptionText = value;
                     this.RaisePropertyChanged(() => this.CaptionText);
                 }
             }
@@ -473,14 +516,14 @@
         {
             get
             {
-                return this.mShowCopyButton;
+                return this._ShowCopyButton;
             }
 
             set
             {
-                if (this.mShowCopyButton != value)
+                if (this._ShowCopyButton != value)
                 {
-                    this.mShowCopyButton = value;
+                    this._ShowCopyButton = value;
                     this.RaisePropertyChanged(() => this.ShowCopyButton);
                 }
             }
@@ -493,15 +536,33 @@
         {
             get
             {
-                return this.mResult;
+                return this._Result;
             }
 
             set
             {
-                if (this.mResult != value)
+                if (this._Result != value)
                 {
-                    this.mResult = value;
+                    this._Result = value;
                     this.RaisePropertyChanged(() => this.Result);
+                }
+            }
+        }
+
+        
+        public string TestMethod
+        {
+            get
+            {
+                return this._TestMethod;
+            }
+
+            set
+            {
+                if (this._TestMethod != value)
+                {
+                    this._TestMethod = value;
+                    this.RaisePropertyChanged(() => this.TestMethod);
                 }
             }
         }
@@ -620,7 +681,7 @@
         /// <summary>
         /// Method is executed when TestMsgBoxParameters command is invoked.
         /// </summary>
-        private async void TestMsgBoxParameters_Executed()
+        private async void TestMsgBoxParametersAsync_Executed()
         {
             MsgBoxImage image;
             image = this.MessageImageSelected.EnumKey;
@@ -631,7 +692,7 @@
 
             var msg = GetService<IContentDialogService>().MsgBox;
 
-            MsgBoxResult result = await msg.Show(this.MessageText, this.CaptionText,
+            MsgBoxResult result = await msg.ShowAsync(this.MessageText, this.CaptionText,
                                            this.mMessageButtonSelected.EnumKey,
                                            image,
                                            this.DefaultMessageButtonSelected.EnumKey,
@@ -648,6 +709,22 @@
         /// with actual parameters.
         /// </summary>
         /// <param name="p"></param>
+        private void TestSamplMsgBox_ExecutedAsync(object p)
+        {
+            object[] param = p as object[];
+
+            if (param != null)
+            {
+                if (param.Length == 2)
+                {
+                    Button b = param[0] as Button;
+                    Window w = param[1] as Window;
+
+                    this.ShowTestSampleMsgBoxAsync(b.Content.ToString(), w);
+                }
+            }
+        }
+
         private void TestSamplMsgBox_Executed(object p)
         {
             object[] param = p as object[];
@@ -664,23 +741,7 @@
             }
         }
 
-        /// <summary>
-        /// THIS CODE DOES NOT WORK AS I CANNOT SEEM TO WRAP
-        /// ASYNC CODE INTO STANDARD SYNC CODE :-(
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        private MsgBoxResult ShowMessageTest(string message)
-        {
-            var msg = GetService<IContentDialogService>().MsgBox;
-
-            //http://stackoverflow.com/questions/5095183/how-would-i-run-an-async-taskt-method-synchronously
-            Task<MsgBoxResult> task = Task.Run( () => msg.Show(message) );
-
-            return msg.Show(message).GetAwaiter().GetResult();
-        }
-
-        async private void ShowTestSampleMsgBox(string sampleID, Window sampleWindow)
+        async private void ShowTestSampleMsgBoxAsync(string sampleID, Window sampleWindow)
         {
             MsgBoxResult result = MsgBoxResult.None;
             var msg = GetService<IContentDialogService>().MsgBox;
@@ -688,17 +749,17 @@
             switch (sampleID)
             {
                 case "Sample 1":
-                    result = await msg.Show("This options displays a message box with only message." +
+                    result = await msg.ShowAsync("This options displays a message box with only message." +
                                       "\nThis is the message box with minimal options (just an OK button and no caption).");
                     break;
 
                 case "Sample 2":
-                    result = await msg.Show("This options displays a message box with both title and message.\nA default image and OK button are displayed.",
+                    result = await msg.ShowAsync("This options displays a message box with both title and message.\nA default image and OK button are displayed.",
                                       "WPF MessageBox");
                     break;
 
                 case "Sample 3":
-                    result = await msg.Show("This options displays a message box with YES, NO, CANCEL option.",
+                    result = await msg.ShowAsync("This options displays a message box with YES, NO, CANCEL option.",
                               "WPF MessageBox",
                               MsgBoxButtons.YesNoCancel, MsgBoxImage.Question);
                     break;
@@ -707,7 +768,7 @@
                     {
                         Exception exp = this.CreateDemoException();
 
-                        result = await msg.Show(exp.Message, "Unexpected Error",
+                        result = await msg.ShowAsync(exp.Message, "Unexpected Error",
                                   exp.ToString(), MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -716,20 +777,20 @@
                     break;
 
                 case "Sample 5":
-                    result = await msg.Show("This options displays a message box with YES, NO buttons.",
+                    result = await msg.ShowAsync("This options displays a message box with YES, NO buttons.",
                               "WPF MessageBox",
                               MsgBoxButtons.YesNo, MsgBoxImage.Question);
 
                     break;
 
                 case "Sample 6":
-                    result = await msg.Show("This options displays a message box with Yes, No (No as default) options.",
+                    result = await msg.ShowAsync("This options displays a message box with Yes, No (No as default) options.",
                              "WPF MessageBox",
                              MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.No);
                     break;
 
                 case "Sample 7":
-                    result = await msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                    result = await msg.ShowAsync("Are you sure? Click the hyperlink to review the get more details.",
                               "WPF MessageBox with Hyperlink",
                               MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.Yes,
                               "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -737,7 +798,7 @@
                     break;
 
                 case "Sample 8":
-                    result = await msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                    result = await msg.ShowAsync("Are you sure? Click the hyperlink to review the get more details.",
                               "WPF MessageBox with Custom Hyperlink Navigation",
                               MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.Yes,
                               "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -745,21 +806,21 @@
                     break;
 
                 case "Sample 9":
-                    result = await msg.Show("WPF MessageBox without Copy Button (OK and Cancel [default])",
+                    result = await msg.ShowAsync("WPF MessageBox without Copy Button (OK and Cancel [default])",
                               "Are you sure this right?",
                               MsgBoxButtons.OKCancel, MsgBoxImage.Question, MsgBoxResult.Cancel,
                               null, string.Empty, string.Empty, null, false);
                     break;
 
                 case "Sample 10":
-                    result = await msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                    result = await msg.ShowAsync("Are you sure? Click the hyperlink to review the get more details.",
                               "WPF MessageBox without Default Button",
                               MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.NoDefaultButton,
                               null, string.Empty, string.Empty, null, false);
                     break;
 
                 case "Sample 11":
-                    result = await msg.Show("...display a messageBox with a close button and TakeNote icon.",
+                    result = await msg.ShowAsync("...display a messageBox with a close button and TakeNote icon.",
                              "WPF MessageBox with a close button",
                              MsgBoxButtons.Close, MsgBoxImage.Warning);
                     break;
@@ -768,7 +829,7 @@
                     {
                         Exception exp = this.CreateDemoException();
 
-                        result = await msg.Show(exp, "Unexpected Error",
+                        result = await msg.ShowAsync(exp, "Unexpected Error",
                                   MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -780,7 +841,7 @@
                     {
                         Exception exp = this.CreateDemoException();
 
-                        result = await msg.Show(exp, "Reading file 'x' was not succesful.", "Unexpected Error",
+                        result = await msg.ShowAsync(exp, "Reading file 'x' was not succesful.", "Unexpected Error",
                                   MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
                                   "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -792,15 +853,15 @@
                     {
                         Exception exp = this.CreateDemoException();
 
-                        result = await msg.Show(sampleWindow, "...display a messageBox with an explicit reference to the owning window.",
+                        result = await msg.ShowAsync(sampleWindow, "...display a messageBox with an explicit reference to the owning window.",
                                          "MessageBox with a owner reference",
-                                         MsgBoxButtons.OK, MsgBoxImage.Default_OffLight);
+                                         MsgBoxButtons.OK, MsgBoxImage.Default_OffLight );
                     }
                     break;
 
                 case "Sample 15":
                     {
-                        result = await msg.Show("...display a messageBox with a default image.",
+                        result = await msg.ShowAsync("...display a messageBox with a default image.",
                                  "MessageBox with default image",
                                  MsgBoxButtons.YesNoCancel, MsgBoxResult.No,
                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
@@ -814,7 +875,7 @@
                 // Esc, F4, or Window Close (x) button.
                 case "Sample 16":
                     {
-                        result = await msg.Show("...Display a message box that will not close via Esc, F4, or Window Close (x) button.",
+                        result = await msg.ShowAsync("...Display a message box that will not close via Esc, F4, or Window Close (x) button.",
                                  "MessageBox with default image",
                                  MsgBoxButtons.YesNoCancel,
                                  MsgBoxResult.None, false,
@@ -830,7 +891,173 @@
                 //    via Esc, F4, or Window Close (x) button leaving with a No result.
                 case "Sample 17":
                     {
-                        result = await msg.Show("...Display a message box that will close via Esc, F4, or Window Close (x) butto resulting in a No Answer",
+                        result = await msg.ShowAsync("...Display a message box that will close via Esc, F4, or Window Close (x) butto resulting in a No Answer",
+                                 "MessageBox with default image",
+                                 MsgBoxButtons.YesNoCancel,
+                                 MsgBoxResult.No, true,
+                                 MsgBoxResult.No,
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "Please click on the link to check if this is a known problem (and report it if not):",
+                                 null, true);
+                    }
+                    break;
+            }
+
+            this.Result = result.ToString();
+        }
+
+        private void ShowTestSampleMsgBox(string sampleID, Window sampleWindow)
+        {
+            MsgBoxResult result = MsgBoxResult.None;
+            var msg = GetService<IContentDialogService>().MsgBox;
+
+            switch (sampleID)
+            {
+                case "Sample 1":
+                    result = msg.Show("This options displays a message box with only message." +
+                                      "\nThis is the message box with minimal options (just an OK button and no caption).");
+                    break;
+
+                case "Sample 2":
+                    result = msg.Show("This options displays a message box with both title and message.\nA default image and OK button are displayed.",
+                                      "WPF MessageBox");
+                    break;
+
+                case "Sample 3":
+                    result = msg.Show("This options displays a message box with YES, NO, CANCEL option.",
+                              "WPF MessageBox",
+                              MsgBoxButtons.YesNoCancel, MsgBoxImage.Question);
+                    break;
+
+                case "Sample 4":
+                    {
+                        Exception exp = this.CreateDemoException();
+
+                        result = msg.Show(exp.Message, "Unexpected Error",
+                                  exp.ToString(), MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "Click the link to report this problem:");
+                    }
+                    break;
+
+                case "Sample 5":
+                    result = msg.Show("This options displays a message box with YES, NO buttons.",
+                              "WPF MessageBox",
+                              MsgBoxButtons.YesNo, MsgBoxImage.Question);
+
+                    break;
+
+                case "Sample 6":
+                    result = msg.Show("This options displays a message box with Yes, No (No as default) options.",
+                             "WPF MessageBox",
+                             MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.No);
+                    break;
+
+                case "Sample 7":
+                    result = msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                              "WPF MessageBox with Hyperlink",
+                              MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.Yes,
+                              "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                              "Code Project Articles by Dirkster99");
+                    break;
+
+                case "Sample 8":
+                    result = msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                              "WPF MessageBox with Custom Hyperlink Navigation",
+                              MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.Yes,
+                              "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                              "Code Project Articles by Dirkster99", "Help Topic:", this.MyCustomHyperlinkNaviMethod);
+                    break;
+
+                case "Sample 9":
+                    result = msg.Show("WPF MessageBox without Copy Button (OK and Cancel [default])",
+                              "Are you sure this right?",
+                              MsgBoxButtons.OKCancel, MsgBoxImage.Question, MsgBoxResult.Cancel,
+                              null, string.Empty, string.Empty, null, false);
+                    break;
+
+                case "Sample 10":
+                    result = msg.Show("Are you sure? Click the hyperlink to review the get more details.",
+                              "WPF MessageBox without Default Button",
+                              MsgBoxButtons.YesNo, MsgBoxImage.Question, MsgBoxResult.NoDefaultButton,
+                              null, string.Empty, string.Empty, null, false);
+                    break;
+
+                case "Sample 11":
+                    result = msg.Show("...display a messageBox with a close button and TakeNote icon.",
+                             "WPF MessageBox with a close button",
+                             MsgBoxButtons.Close, MsgBoxImage.Warning);
+                    break;
+
+                case "Sample 12":
+                    {
+                        Exception exp = this.CreateDemoException();
+
+                        result = msg.Show(exp, "Unexpected Error",
+                                  MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "Please click on the link to check if this is a known problem (and report it if not):", null, true);
+                    }
+                    break;
+
+                case "Sample 13":
+                    {
+                        Exception exp = this.CreateDemoException();
+
+                        result = msg.Show(exp, "Reading file 'x' was not succesful.", "Unexpected Error",
+                                  MsgBoxButtons.OK, MsgBoxImage.Error, MsgBoxResult.NoDefaultButton,
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                  "Please click on the link to check if this is a known problem (and report it if not):", null, true);
+                    }
+                    break;
+
+                case "Sample 14":
+                    {
+                        Exception exp = this.CreateDemoException();
+
+                        result = msg.Show(sampleWindow, "...display a messageBox with an explicit reference to the owning window.",
+                                         "MessageBox with a owner reference",
+                                         MsgBoxButtons.OK, MsgBoxImage.Default_OffLight);
+                    }
+                    break;
+
+                case "Sample 15":
+                    {
+                        result = msg.Show("...display a messageBox with a default image.",
+                                 "MessageBox with default image",
+                                 MsgBoxButtons.YesNoCancel, MsgBoxResult.No,
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "Please click on the link to check if this is a known problem (and report it if not):",
+                                 null, true);
+                    }
+                    break;
+
+                // Display a message box that will not close via
+                // Esc, F4, or Window Close (x) button.
+                case "Sample 16":
+                    {
+                        result = msg.Show("...Display a message box that will not close via Esc, F4, or Window Close (x) button.",
+                                 "MessageBox with default image",
+                                 MsgBoxButtons.YesNoCancel,
+                                 MsgBoxResult.None, false,
+                                 MsgBoxResult.No,
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "http://www.codeproject.com/script/Articles/MemberArticles.aspx?amid=7799028",
+                                 "Please click on the link to check if this is a known problem (and report it if not):",
+                                 null, true);
+                    }
+                    break;
+
+                //    Display a message box that WILL CLOSE
+                //    via Esc, F4, or Window Close (x) button leaving with a No result.
+                case "Sample 17":
+                    {
+                        result = msg.Show("...Display a message box that will close via Esc, F4, or Window Close (x) butto resulting in a No Answer",
                                  "MessageBox with default image",
                                  MsgBoxButtons.YesNoCancel,
                                  MsgBoxResult.No, true,
@@ -912,7 +1139,7 @@
             }
             catch (Exception exp)
             {
-                throw new Exception("A sub-sub-system failure occured.", exp);
+                throw new Exception("A division by zero occured.", exp);
             }
         }
         #endregion DemoException

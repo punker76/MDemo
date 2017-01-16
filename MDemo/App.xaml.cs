@@ -4,6 +4,8 @@
     using log4net.Config;
     using MLib;
     using Models;
+    using MWindowInterfacesLib.Interfaces;
+    using MWindowLib;
     using Settings.Interfaces;
     using Settings.UserProfile;
     using System;
@@ -210,6 +212,17 @@
 
                 if (wsVM != null)
                 {
+                    var MainWindowCanClose = MainWindow as IMetroWindow;
+
+                    if (MainWindowCanClose != null)
+                    {
+                        if (MainWindowCanClose.IsContentDialogVisible == true)
+                        {
+                            e.Cancel = true;     // Lets not close with open dialog
+                            return;
+                        }
+                    }
+
                     // Close all open files and check whether application is ready to close
                     if (wsVM.AppLifeCycle.Exit_CheckConditions(wsVM) == true)
                     {

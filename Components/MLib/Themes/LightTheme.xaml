@@ -7,6 +7,7 @@
     xmlns:reskeys="clr-namespace:MLib.Themes"
     >
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MLib;component/Styles/FocusVisualStyleKey.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/ProgressBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/Menu/Menu.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/Menu/ContextMenu.xaml" />
@@ -23,6 +24,9 @@
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/PasswordBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/TabControl.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/ContentControlEx.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MLib;component/Controls/Expander.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/MLib;component/Themes/LightBrushs.xaml" />
 

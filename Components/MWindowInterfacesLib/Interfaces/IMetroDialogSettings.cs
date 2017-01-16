@@ -14,7 +14,7 @@
 
         CancellationToken CancellationToken { get; set; }
 
-        MetroDialogColorScheme ColorScheme { get; set; }
+        ////MetroDialogColorScheme ColorScheme { get; set; }
 
         ResourceDictionary CustomResourceDictionary { get; set; }
 

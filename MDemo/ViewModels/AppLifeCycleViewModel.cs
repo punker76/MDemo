@@ -138,7 +138,7 @@
                    ,new Uri("/MDemo;component/Themes/MWindowLib/DarkBrushs.xaml", UriKind.RelativeOrAbsolute)
 
                    ,new Uri("/MWindowDialogLib;component/Themes/DarkBrushs.xaml", UriKind.RelativeOrAbsolute)
-////                   ,new Uri("/MDemo;component/Themes/MWindowDialogLib/DarkBrushs.xaml", UriKind.RelativeOrAbsolute)
+                   ,new Uri("/MDemo;component/Themes/MWindowDialogLib/DarkBrushs.xaml", UriKind.RelativeOrAbsolute)
 
                   // ,new Uri("/DropDownButtonLib;component/Themes/MetroDark.xaml", UriKind.RelativeOrAbsolute)
 
@@ -157,13 +157,13 @@
 
                    ,new Uri("/MWindowDialogLib;component/Themes/LightIcons.xaml", UriKind.RelativeOrAbsolute)
                    //,new Uri("/MsgBox;component/View/Modern/Themes/ModernUI.Light.xaml", UriKind.RelativeOrAbsolute)
-                   ,new Uri("/MDemo;component/Themes/Light/MsgBox/ModernUI.Light.xaml", UriKind.RelativeOrAbsolute)
+                   //,new Uri("/MDemo;component/Themes/Light/MsgBox/ModernUI.Light.xaml", UriKind.RelativeOrAbsolute)
 
                    ,new Uri("/MWindowLib;component/Controls/Accent/BaseLight.xaml", UriKind.RelativeOrAbsolute)
                    ,new Uri("/MDemo;component/Themes/MWindowLib/LightBrushs.xaml", UriKind.RelativeOrAbsolute)
 
                    ,new Uri("/MWindowDialogLib;component/Themes/LightBrushs.xaml", UriKind.RelativeOrAbsolute)
-////                   ,new Uri("/MDemo;component/Themes/MWindowDialogLib/LightBrushs.xaml", UriKind.RelativeOrAbsolute)
+                   ,new Uri("/MDemo;component/Themes/MWindowDialogLib/LightBrushs.xaml", UriKind.RelativeOrAbsolute)
 
                    //,new Uri("/DropDownButtonLib;component/Themes/MetroLight.xaml", UriKind.RelativeOrAbsolute)
 

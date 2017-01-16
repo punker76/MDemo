@@ -224,15 +224,14 @@
                      Color="Yellow" />
 
 
-    <Color x:Key="BlackColor">#FFFFFFFF</Color>
-    <SolidColorBrush x:Key="BlackColorBrush" Color="{StaticResource BlackColor}" options:Freeze="True" />
-
+    <!-- Black Color Definition -->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=BlackColorKey}">#FFFFFFFF</Color>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
-                     ResourceId=HighlightBrushKey}"
-                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlAccentColorKey}}"
-                     Opacity="0.6"
-                     />
+                     ResourceId=BlackBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.BlackColorKey}}" options:Freeze="True" />
 
+    <!-- Gray Brush/Color Defintions -->
     <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
                      ResourceId=GrayNormalKey}">#FF7D7D7D</Color>
 
@@ -248,5 +247,31 @@
                      ResourceId=GrayHoverBrushKey}"
                      Color="{DynamicResource {x:Static reskeys:ResourceKeys.GrayHoverKey}}"
                      options:Freeze="True" />
+
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray1ColorKey}">#FFF9F9F9</Color>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray2ColorKey}">#FF7F7F7F</Color>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray7ColorKey}">#FF7E7E7E</Color>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray8ColorKey}">#FF454545</Color>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray10ColorKey}">#FF2F2F2F</Color>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray1BrushKey}"  Color="{DynamicResource {x:Static reskeys:ResourceKeys.Gray1ColorKey}}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray2BrushKey}"  Color="{DynamicResource {x:Static reskeys:ResourceKeys.Gray2ColorKey}}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray7BrushKey}"  Color="{DynamicResource {x:Static reskeys:ResourceKeys.Gray7ColorKey}}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray8BrushKey}"  Color="{DynamicResource {x:Static reskeys:ResourceKeys.Gray8ColorKey}}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=Gray10BrushKey}" Color="{DynamicResource {x:Static reskeys:ResourceKeys.Gray10ColorKey}}" options:Freeze="True" />
+
+    <!-- Highlight Brush Color Defintion -->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},
+                     ResourceId=HighlightBrushKey}"
+                     Color="{DynamicResource {x:Static reskeys:ResourceKeys.ControlAccentColorKey}}"
+                     Opacity="0.6"
+                     />
+
+    <!-- Alternate Row Background Colors/Brushs -->
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=AlternateRow1BackgroundColorKey}">Transparent</Color>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=AlternateRow2BackgroundColorKey}">Transparent</Color>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=AlternateRow1BackgroundBrushKey}" Color="{DynamicResource {x:Static reskeys:ResourceKeys.AlternateRow1BackgroundColorKey}}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type reskeys:ResourceKeys},ResourceId=AlternateRow2BackgroundBrushKey}" Color="{DynamicResource {x:Static reskeys:ResourceKeys.AlternateRow2BackgroundColorKey}}" options:Freeze="True" />
 
 </ResourceDictionary>

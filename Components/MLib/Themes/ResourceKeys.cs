@@ -97,12 +97,37 @@
         // Color for displaying Warning Icons
         public static readonly ComponentResourceKey ControlsValidationBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "ControlsValidationBrushKey");
 
-        public static readonly ComponentResourceKey HighlightBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "HighlightBrushKey");
+        // Black Color Definition
+        public static readonly ComponentResourceKey BlackColorKey = new ComponentResourceKey(typeof(ResourceKeys), "BlackColorKey");
+        public static readonly ComponentResourceKey BlackBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "BlackBrushKey");
+
+        // Gray Brush/Color Defintions
 
         public static readonly ComponentResourceKey GrayNormalKey = new ComponentResourceKey(typeof(ResourceKeys), "GrayNormalKey");
         public static readonly ComponentResourceKey GrayHoverKey = new ComponentResourceKey(typeof(ResourceKeys), "GrayHoverKey");
 
         public static readonly ComponentResourceKey GrayNormalBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "GrayNormalBrushKey");
         public static readonly ComponentResourceKey GrayHoverBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "GrayHoverBrushKey");
+
+        public static readonly ComponentResourceKey Gray1ColorKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray1ColorKey");
+        public static readonly ComponentResourceKey Gray2ColorKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray2ColorKey");
+        public static readonly ComponentResourceKey Gray7ColorKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray7ColorKey");
+        public static readonly ComponentResourceKey Gray8ColorKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray8ColorKey");
+        public static readonly ComponentResourceKey Gray10ColorKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray10ColorKey");
+
+        public static readonly ComponentResourceKey Gray1BrushKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray1BrushKey");
+        public static readonly ComponentResourceKey Gray2BrushKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray2BrushKey");
+        public static readonly ComponentResourceKey Gray7BrushKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray7BrushKey");
+        public static readonly ComponentResourceKey Gray8BrushKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray8BrushKey");
+        public static readonly ComponentResourceKey Gray10BrushKey = new ComponentResourceKey(typeof(ResourceKeys), "Gray10BrushKey");
+
+        // Highlight Brush Color Defintion
+        public static readonly ComponentResourceKey HighlightBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "HighlightBrushKey");
+
+        // Alternate Row Background Colors/Brushs
+        public static readonly ComponentResourceKey AlternateRow1BackgroundColorKey = new ComponentResourceKey(typeof(ResourceKeys), "AlternateRow1BackgroundColorKey");
+        public static readonly ComponentResourceKey AlternateRow2BackgroundColorKey = new ComponentResourceKey(typeof(ResourceKeys), "AlternateRow2BackgroundColorKey");
+        public static readonly ComponentResourceKey AlternateRow1BackgroundBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "AlternateRow1BackgroundBrushKey");
+        public static readonly ComponentResourceKey AlternateRow2BackgroundBrushKey = new ComponentResourceKey(typeof(ResourceKeys), "AlternateRow2BackgroundBrushKey");
     }
 }

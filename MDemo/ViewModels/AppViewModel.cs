@@ -1,7 +1,7 @@
 ﻿namespace MDemo.ViewModels
 {
     using Base;
-    using Demo.ViewModels;
+    using MDemo.Demo.ViewModels;
     using MLib;
     using MLib.Themes;
     using Settings.Interfaces;
@@ -60,6 +60,11 @@
         /// <summary>
         /// Command executes when the user has selected
         /// a different UI theme to display.
+        /// 
+        /// Command Parameter is the <seealso cref="ThemeDefinitionViewModel"/> object
+        /// that should be selected next. This object can be handed over as:
+        /// 1> an object[] array at object[0] or as simple object
+        /// 2> <seealso cref="ThemeDefinitionViewModel"/> p
         /// </summary>
         public ICommand ThemeSelectionChangedCommand
         {
@@ -69,7 +74,25 @@
                 {
                     _ThemeSelectionChangedCommand = new RelayCommand<object>((p) =>
                     {
+                        if (this.mDisposed == true)
+                            return;
+
                         object[] paramets = p as object[];
+
+                        ThemeDefinitionViewModel theme = null;
+
+                        // Try to convert object[0] command parameter
+                        if(paramets != null)
+                        {
+                            if (paramets.Length == 1)
+                            {
+                                theme = paramets[0] as ThemeDefinitionViewModel;
+                            }
+                        }
+
+                        // Try to convert ThemeDefinitionViewModel command parameter
+                        if (theme == null)
+                            theme = p as ThemeDefinitionViewModel;
 
                         if (Application.Current == null)
                             return;
@@ -77,10 +100,10 @@
                         if (Application.Current.MainWindow == null)
                             return;
 
-                        if (paramets != null)
+                        if (theme != null)
                         {
                             _AppTheme.ApplyTheme(Application.Current.MainWindow,
-                                                 (paramets[0] as ThemeDefinition).Name);
+                                                 theme.Model.Name);
                         }
                     });
                 }

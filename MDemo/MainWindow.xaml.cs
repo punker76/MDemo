@@ -36,7 +36,7 @@
                 AffirmativeButtonText = "Hi",
                 NegativeButtonText = "Go away!",
                 FirstAuxiliaryButtonText = "Cancel",
-                ColorScheme = MetroDialogOptions.ColorScheme
+                ////ColorScheme = MetroDialogOptions.ColorScheme
             };
 
             var manager = ServiceContainer.Instance.GetService<IContentDialogService>().Manager;
@@ -58,7 +58,7 @@
                 NegativeButtonText = "Go away!",
                 FirstAuxiliaryButtonText = "Cancel",
                 MaximumBodyHeight = 100,
-                ColorScheme = MetroDialogOptions.ColorScheme
+                ////ColorScheme = MetroDialogOptions.ColorScheme
             };
 
             var dlg = ServiceContainer.Instance.GetService<IContentDialogService>();
@@ -114,7 +114,10 @@
 
             ILoginDialogData result = await dlg.Manager.ShowLoginAsync(
                             this, "Authentication", "Enter your credentials"
-                           , new LoginDialogSettings { ColorScheme = this.MetroDialogOptions.ColorScheme, InitialUsername = "MLib" }
+                           , new LoginDialogSettings
+                           {
+                               ////ColorScheme = this.MetroDialogOptions.ColorScheme,
+                               InitialUsername = "MLib" }
                            );
             if (result == null)
             {
@@ -133,7 +136,11 @@
 
             ILoginDialogData result = await dlg.Manager.ShowLoginAsync(
                  this, "Authentication", "Enter your password"
-                , new LoginDialogSettings { ColorScheme = this.MetroDialogOptions.ColorScheme, ShouldHideUsername = true }
+                ,
+                new LoginDialogSettings
+                { 
+                    ////ColorScheme = this.MetroDialogOptions.ColorScheme,
+                    ShouldHideUsername = true }
                 );
 
             if (result == null)
@@ -262,7 +269,9 @@
                 , "Authentication"
                 , "Enter your credentials"
                 , metro.CreateExternalWindow()
-                , new LoginDialogSettings { ColorScheme = this.MetroDialogOptions.ColorScheme, InitialUsername = "MLib", EnablePasswordPreview = true });
+                , new LoginDialogSettings {
+                    ////ColorScheme = this.MetroDialogOptions.ColorScheme,
+                    InitialUsername = "MLib", EnablePasswordPreview = true });
 
             if (result == null)
             {
@@ -286,7 +295,7 @@
                 AffirmativeButtonText = "Hi",
                 NegativeButtonText = "Go away!",
                 FirstAuxiliaryButtonText = "Cancel",
-                ColorScheme = MetroDialogOptions.ColorScheme
+                ////ColorScheme = MetroDialogOptions.ColorScheme
             };
 
             var metro = ServiceContainer.Instance.GetService<IMetroWindowService>();

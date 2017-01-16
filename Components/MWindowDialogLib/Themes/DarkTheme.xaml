@@ -3,6 +3,7 @@
                     >
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MWindowDialogLib;component/Styles/WindowButtonStyle.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MWindowDialogLib;component/Themes/DarkBrushs.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MWindowDialogLib;component/Dialogs/BaseMetroDialog.xaml" />
         <!-- ResourceDictionary Source="pack://application:,,,/MWindowDialogLib;component/Themes/MsgBoxDialog.xaml" /-->

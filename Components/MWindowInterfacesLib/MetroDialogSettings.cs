@@ -15,8 +15,8 @@
             AffirmativeButtonText = "OK";
             NegativeButtonText = "Cancel";
 
-            ColorScheme = MetroDialogColorScheme.Inverted; //// MetroDialogColorScheme.Theme;
-            AnimateShow = AnimateHide = true;
+            ////ColorScheme = MetroDialogColorScheme.Inverted; //// MetroDialogColorScheme.Theme;
+            AnimateShow = AnimateHide = false;
 
             MaximumBodyHeight = Double.NaN;
 
@@ -35,13 +35,15 @@
         /// Gets/sets the text used for the Negative button. For example: "Cancel" or "No".
         /// </summary>
         public string NegativeButtonText { get; set; }
+
         public string FirstAuxiliaryButtonText { get; set; }
+
         public string SecondAuxiliaryButtonText { get; set; }
 
         /// <summary>
         /// Gets/sets whether the metro dialog should use the default black/white appearance (theme) or try to use the current accent.
         /// </summary>
-        public MetroDialogColorScheme ColorScheme { get; set; }
+        ////public MetroDialogColorScheme ColorScheme { get; set; }
 
         /// <summary>
         /// Enable/disable dialog showing animation.

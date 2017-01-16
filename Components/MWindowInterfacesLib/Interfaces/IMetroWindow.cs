@@ -1,6 +1,5 @@
 ﻿namespace MWindowInterfacesLib.Interfaces
 {
-    using Enums;
     using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows;
@@ -62,6 +61,11 @@
         Grid OverlayBox { get; }
         Grid MetroActiveDialogContainer { get; }
         Grid MetroInactiveDialogContainer { get; }
+
+        /// <summary>
+        /// Determines if there is currently a ContentDialog visible or not.
+        /// </summary>
+        bool IsContentDialogVisible { get; }
         #endregion properties
 
         #region events
